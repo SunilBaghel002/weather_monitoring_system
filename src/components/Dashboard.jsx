@@ -46,7 +46,7 @@ const Dashboard = () => {
           <MapView lat={location.lat} lon={location.lon} city={location.city} />
         </div>
       </div>
-      <Prompt/>
+      {/* <Prompt/> */}
     </div>
   );
 };

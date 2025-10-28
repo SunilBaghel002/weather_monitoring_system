@@ -35,12 +35,12 @@ function Prompt(){
 
 ---
 
-### APIs to Use (Free):
+"### APIs to Use (Free):
 - **Weather**: `https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true&hourly=...`
 - **AQI**: `https://api.waqi.info/feed/geo:{lat};{lon}/?token=demo`  
   → Use **demo token** (replaceable later)
 - **Geocoding**: `https://nominatim.openstreetmap.org/search?q={city}&format=json`
-
+"
 ---
 
 ### DESIGN & STYLE:
