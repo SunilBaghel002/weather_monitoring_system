@@ -13,44 +13,38 @@ import axios from "axios";
 
 export const getAQIData = async (lat, lon) => {
   try {
-    // AQICN API - Free, no key needed for demo token
-    const url = `https://api.waqi.info/feed/geo:${lat};${lon}/?token=demo`;
+    // Use YOUR token from .env
+    const token = import.meta.env.VITE_AQICN_TOKEN || 'demo';
+
+    const url = `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${token}`;
     const res = await axios.get(url);
 
     console.log("AQICN Response:", res.data);
 
     const apiData = res.data.data;
-    if (!apiData || res.data.status !== "ok") {
-      return { aqi: "N/A", pollutants: {}, message: "No AQI data available" };
+    if (!apiData || res.data.status !== 'ok') {
+      return { 
+        aqi: 'N/A', 
+        pollutants: {}, 
+        message: 'No AQI data available' 
+      };
     }
 
-    // Extract AQI
-    const aqi = apiData.aqi || "N/A";
+    // Extract AQI (real-time with your token)
+    const aqi = apiData.aqi || 'N/A';
 
-    // Extract pollutants from iaqi (index of air quality)
+    // Extract pollutants
     const pollutants = {};
     if (apiData.iaqi) {
-      // PM2.5 (most important for AQI calculation)
-      if (apiData.iaqi.pm25)
-        pollutants.pm25 = { value: apiData.iaqi.pm25.v, unit: "µg/m³" };
-      // PM10
-      if (apiData.iaqi.pm10)
-        pollutants.pm10 = { value: apiData.iaqi.pm10.v, unit: "µg/m³" };
-      // O3
-      if (apiData.iaqi.o3)
-        pollutants.o3 = { value: apiData.iaqi.o3.v, unit: "µg/m³" };
-      // NO2
-      if (apiData.iaqi.no2)
-        pollutants.no2 = { value: apiData.iaqi.no2.v, unit: "µg/m³" };
-      // SO2
-      if (apiData.iaqi.so2)
-        pollutants.so2 = { value: apiData.iaqi.so2.v, unit: "µg/m³" };
-      // CO
-      if (apiData.iaqi.co)
-        pollutants.co = { value: apiData.iaqi.co.v, unit: "mg/m³" };
+      if (apiData.iaqi.pm25)  pollutants.pm25 = { value: apiData.iaqi.pm25.v,  unit: 'µg/m³' };
+      if (apiData.iaqi.pm10)  pollutants.pm10 = { value: apiData.iaqi.pm10.v,  unit: 'µg/m³' };
+      if (apiData.iaqi.o3)    pollutants.o3   = { value: apiData.iaqi.o3.v,    unit: 'µg/m³' };
+      if (apiData.iaqi.no2)   pollutants.no2  = { value: apiData.iaqi.no2.v,   unit: 'µg/m³' };
+      if (apiData.iaqi.so2)   pollutants.so2  = { value: apiData.iaqi.so2.v,   unit: 'µg/m³' };
+      if (apiData.iaqi.co)    pollutants.co   = { value: apiData.iaqi.co.v,    unit: 'mg/m³' };
     }
 
-    const locationName = apiData.city?.name || "Nearby Station";
+    const locationName = apiData.city?.name || 'Nearby Station';
 
     const result = {
       aqi,
@@ -62,11 +56,10 @@ export const getAQIData = async (lat, lon) => {
 
     return result;
   } catch (err) {
-    console.error("AQICN fetch failed:", err.response?.status, err.message);
-    return { aqi: "N/A", pollutants: {}, message: "AQI unavailable" };
+    console.error('AQICN fetch failed:', err.message);
+    return { aqi: 'N/A', pollutants: {}, message: 'AQI unavailable' };
   }
 };
-
 export const getWeatherData = async (lat, lon) => {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m,surface_pressure&daily=sunrise,sunset&timezone=auto`;
   const res = await axios.get(url);

@@ -4,6 +4,7 @@ import WeatherCard from "./WeatherCard";
 import AQICard from "./AQICard";
 import SunriseSunset from "./SunriseSunset";
 import MapView from "./MapView";
+import Prompt from "./Prompt"
 
 const Dashboard = () => {
   const { location, weather, aqi, loading, error } = useContext(DataContext);
@@ -45,6 +46,7 @@ const Dashboard = () => {
           <MapView lat={location.lat} lon={location.lon} city={location.city} />
         </div>
       </div>
+      <Prompt/>
     </div>
   );
 };
