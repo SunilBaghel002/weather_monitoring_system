@@ -31,7 +31,7 @@ const Dashboard = () => {
         {location.city} Weather & Air Quality
       </h1>
 
-      <div className="w-full margin">
+      <div className="w-full margin small">
         <WeatherCard data={weather} />
       </div>
 

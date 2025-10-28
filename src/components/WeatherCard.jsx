@@ -32,7 +32,7 @@ const WeatherCard = ({ data }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:w-full">
       {/* TEMPERATURE */}
       <div className="white-glassmorphism p-6 text-center group flex justify-center flex-col items-center">
         {getWeatherIcon(data.condition)}
